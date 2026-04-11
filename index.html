@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DESIGN.md Style Tile Gallery</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Jost:wght@300;400;500;600;700&family=Karla:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
 <style>
   :root {
     --bg: #0a0a0b;
@@ -15,10 +20,11 @@
     --accent: #fbe248;
     --accent-teal: #437481;
     --radius: 12px;
+    --ui-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: var(--ui-font);
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
@@ -95,7 +101,7 @@
     max-width: 1400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 20px;
   }
   .tile {
@@ -114,26 +120,66 @@
     border-color: var(--accent);
     transform: translateY(-2px);
   }
+
   .swatches {
     display: flex;
-    height: 80px;
+    height: 64px;
   }
   .swatch {
     flex: 1;
     display: flex;
     align-items: flex-end;
-    padding: 8px;
-    font-size: 0.65rem;
-    font-family: 'SF Mono', Menlo, monospace;
-    color: rgba(255,255,255,0.7);
+    padding: 6px 8px;
+    font-size: 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    color: rgba(255,255,255,0.75);
     text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   }
   .swatch.light {
-    color: rgba(0,0,0,0.5);
+    color: rgba(0,0,0,0.55);
     text-shadow: 0 1px 2px rgba(255,255,255,0.5);
   }
+
+  .specimen {
+    padding: 24px 20px 18px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .specimen-display {
+    font-size: 2.4rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+    color: var(--text);
+    overflow-wrap: break-word;
+  }
+  .specimen-body {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  .specimen-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+  .specimen-labels strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .specimen-note {
+    font-style: italic;
+    opacity: 0.65;
+  }
+
   .tile-body {
-    padding: 16px;
+    padding: 16px 20px 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -160,19 +206,11 @@
     margin-bottom: 12px;
     flex: 1;
   }
-  .tile-type {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    padding: 8px 0;
-    border-top: 1px solid var(--border);
-    margin-top: 8px;
-  }
-  .tile-type strong { color: var(--text); }
   .tile-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    margin-top: 8px;
+    margin-top: 4px;
   }
   .tag {
     font-size: 0.65rem;
@@ -181,21 +219,19 @@
     border-radius: 10px;
     color: var(--text-dim);
   }
-  .tile-action {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-    font-size: 0.75rem;
-    color: var(--accent);
-  }
   .tile-best-for {
     font-size: 0.75rem;
     color: var(--text-dim);
-    font-style: italic;
-    margin-top: 4px;
-    padding-top: 4px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
   }
-  .tile-best-for strong { color: var(--text); font-style: normal; }
+  .tile-best-for strong { color: var(--text); }
+  .tile-action {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
   footer {
     max-width: 1400px;
     margin: 48px auto 0;
@@ -209,39 +245,90 @@
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
   }
 </style>
 </head>
 <body>
 <header>
   <h1>DESIGN.md Style Tile Gallery</h1>
-  <p class="lede">Curated reference sites from the VoltAgent <code style="padding:2px 6px;background:#1d1d22;border-radius:4px;">awesome-design-md</code> catalog. Filter to narrow, click any tile to open the full DESIGN.md at getdesign.md. Use this as a starting point when initializing a new project's design system.</p>
+  <p class="lede">Curated reference design systems from the VoltAgent <code style="padding:2px 6px;background:#1d1d22;border-radius:4px;font-family:'IBM Plex Mono',monospace;">awesome-design-md</code> catalog. Each tile shows the real color palette and typography rendered in the actual or closest available font. Filter to narrow, click any tile to open the full DESIGN.md at getdesign.md.</p>
   <div class="filter-bar" id="filterBar"></div>
   <div class="count" id="count"></div>
 </header>
 <div class="grid" id="grid"></div>
 <footer>
-  Data lives in <code>~/.claude/skills/design-md/catalog.json</code>. Add more entries to grow the gallery.
+  Data lives in <code>~/.claude/skills/design-md/catalog.json</code>. Hosted at design.dxn.is.
 </footer>
 
 <script>
+// Mapping from declared fonts to available CSS font stacks.
+// When the original is proprietary, we use the closest Google Fonts substitute and note it.
+const FONT_RENDER = {
+  // Actually available
+  "Inter": { stack: "'Inter', sans-serif", real: true },
+  "Inter Display": { stack: "'Inter', sans-serif", real: true },
+  "Manrope": { stack: "'Manrope', sans-serif", real: true },
+  "Fraunces": { stack: "'Fraunces', serif", real: true },
+  "Jost": { stack: "'Jost', sans-serif", real: true },
+  "Karla": { stack: "'Karla', sans-serif", real: true },
+  "Lora": { stack: "'Lora', serif", real: true },
+  "IBM Plex Mono": { stack: "'IBM Plex Mono', monospace", real: true },
+  "JetBrains Mono": { stack: "'JetBrains Mono', monospace", real: true },
+  "Space Grotesk": { stack: "'Space Grotesk', sans-serif", real: true },
+  "Libre Caslon": { stack: "'Libre Caslon Text', serif", real: true },
+  "DM Serif": { stack: "'DM Serif Display', serif", real: true },
+
+  // Substitutes for proprietary fonts
+  "Satoshi": { stack: "'Manrope', sans-serif", substitute: "Manrope" },
+  "Sohne": { stack: "'Inter', sans-serif", substitute: "Inter" },
+  "Tiempos": { stack: "'Fraunces', serif", substitute: "Fraunces" },
+  "Styrene B": { stack: "'Inter', sans-serif", substitute: "Inter" },
+  "Lyon": { stack: "'Fraunces', serif", substitute: "Fraunces" },
+  "Circular": { stack: "'Manrope', sans-serif", substitute: "Manrope" },
+  "Manuka": { stack: "'Fraunces', serif", substitute: "Fraunces" },
+  "Futura": { stack: "'Jost', sans-serif", substitute: "Jost" },
+  "SF Pro": { stack: "-apple-system, 'Inter', sans-serif", substitute: "SF Pro or Inter" },
+  "SF Pro Display": { stack: "-apple-system, 'Inter', sans-serif", substitute: "SF Pro or Inter" },
+  "SF Pro Text": { stack: "-apple-system, 'Inter', sans-serif", substitute: "SF Pro or Inter" },
+  "Geist Sans": { stack: "'Inter', sans-serif", substitute: "Inter" },
+  "Geist": { stack: "'Inter', sans-serif", substitute: "Inter" },
+  "Geist Mono": { stack: "'JetBrains Mono', monospace", substitute: "JetBrains Mono" },
+  "MatterSQ": { stack: "'Space Grotesk', sans-serif", substitute: "Space Grotesk" },
+  "Polaris": { stack: "'Fraunces', serif", substitute: "Fraunces" },
+  "WIRED Cond": { stack: "'DM Serif Display', serif", substitute: "DM Serif Display" },
+  "Helvetica": { stack: "Helvetica, 'Inter', sans-serif", real: true }
+};
+
+function resolveFont(declared) {
+  if (!declared) return FONT_RENDER["Inter"];
+  const cleaned = declared.replace(/\(.*?\)/g, "").trim();
+  if (FONT_RENDER[cleaned]) return FONT_RENDER[cleaned];
+  const firstWord = cleaned.split(/[\s,/]/)[0];
+  if (FONT_RENDER[firstWord]) return FONT_RENDER[firstWord];
+  for (const key of Object.keys(FONT_RENDER)) {
+    if (cleaned.toLowerCase().includes(key.toLowerCase())) return FONT_RENDER[key];
+  }
+  return FONT_RENDER["Inter"];
+}
+
 const SITES = [
-  {"slug":"notion","name":"Notion","description":"All-in-one workspace. Warm minimalism, serif headings, soft surfaces.","category":"Productivity","colors":[{"name":"Warm white","hex":"#FFFFFF","light":true},{"name":"Near-black ink","hex":"#191919"},{"name":"Soft gray","hex":"#F7F6F3","light":true}],"typography":{"display":"Lyon (serif) / Inter","body":"Inter, system-ui"},"tags":["light","editorial","mono","warm","serious","productivity"],"density":"medium","best_for":"Editorial, knowledge-work, consulting, writing-heavy sites"},
-  {"slug":"claude","name":"Claude","description":"Anthropic's AI assistant. Warm terracotta accent, clean editorial layout.","category":"AI","colors":[{"name":"Terracotta","hex":"#D97757"},{"name":"Warm cream","hex":"#F4F0E8","light":true},{"name":"Deep ink","hex":"#1C1C1C"}],"typography":{"display":"Styrene B","body":"Tiempos serif + Styrene B"},"tags":["light","editorial","terracotta","warm","serious","ai","premium"],"density":"medium","best_for":"AI-adjacent sites that want warmth, consulting, editorial"},
-  {"slug":"linear.app","name":"Linear","description":"Project management for engineers. Ultra-minimal, precise, purple accent.","category":"Productivity","colors":[{"name":"Ink black","hex":"#0A0A0A"},{"name":"Linear purple","hex":"#5E6AD2"},{"name":"Soft white","hex":"#F4F5F8","light":true}],"typography":{"display":"Inter Display","body":"Inter"},"tags":["dark","minimal","purple","cold","technical","devtools","serious"],"density":"medium","best_for":"Technical products, SaaS tools, precision-minded audiences"},
-  {"slug":"vercel","name":"Vercel","description":"Frontend deployment platform. Black and white precision, Geist font.","category":"Devtools","colors":[{"name":"Pure black","hex":"#000000"},{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Neutral gray","hex":"#A1A1A1","light":true}],"typography":{"display":"Geist Sans","body":"Geist Sans"},"tags":["dark","minimal","mono","cold","technical","devtools"],"density":"medium","best_for":"Developer tools, precision sites, minimalist portfolios"},
-  {"slug":"mintlify","name":"Mintlify","description":"Documentation platform. Clean, green-accented, reading-optimized.","category":"Devtools","colors":[{"name":"Mint green","hex":"#00C48C"},{"name":"Paper white","hex":"#FFFFFF","light":true},{"name":"Ink text","hex":"#0F172A"}],"typography":{"display":"Inter","body":"Inter"},"tags":["light","minimal","green","warm","serious","editorial"],"density":"airy","best_for":"Documentation, knowledge bases, writing-heavy sites"},
-  {"slug":"stripe","name":"Stripe","description":"Payment infrastructure. Signature purple gradients, weight-300 elegance.","category":"Fintech","colors":[{"name":"Stripe purple","hex":"#635BFF"},{"name":"Deep navy","hex":"#0A2540"},{"name":"Soft cream","hex":"#F6F9FC","light":true}],"typography":{"display":"Sohne (custom)","body":"Sohne"},"tags":["both","premium","purple","cold","serious","fintech"],"density":"medium","best_for":"Premium SaaS, fintech, any product that wants to feel high-end"},
-  {"slug":"apple","name":"Apple","description":"Consumer electronics. Premium white space, SF Pro, cinematic imagery.","category":"Consumer","colors":[{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Apple gray","hex":"#1D1D1F"},{"name":"Apple blue","hex":"#0066CC"}],"typography":{"display":"SF Pro Display","body":"SF Pro Text"},"tags":["light","premium","blue","cinematic","serious"],"density":"airy","best_for":"Premium product pages, cinematic storytelling"},
-  {"slug":"airbnb","name":"Airbnb","description":"Travel marketplace. Warm coral accent, photography-driven, rounded UI.","category":"Consumer","colors":[{"name":"Rausch coral","hex":"#FF5A5F"},{"name":"Warm white","hex":"#FFFFFF","light":true},{"name":"Hof black","hex":"#484848"}],"typography":{"display":"Circular","body":"Circular"},"tags":["light","warm","coral","playful","friendly"],"density":"airy","best_for":"Warm consumer-facing sites, hospitality, service marketplaces"},
-  {"slug":"theverge","name":"The Verge","description":"Tech editorial media. Acid-mint and ultraviolet accents, Manuka display type.","category":"Editorial","colors":[{"name":"Acid mint","hex":"#00FFC8"},{"name":"Ultraviolet","hex":"#7B1FA2"},{"name":"Deep ink","hex":"#0A0A0A"}],"typography":{"display":"Manuka (custom)","body":"Polaris serif"},"tags":["dark","editorial","green","cinematic","playful"],"density":"dense","best_for":"Editorial, opinion, tech writing with personality"},
-  {"slug":"wired","name":"WIRED","description":"Tech magazine. Paper-white broadsheet density, custom serif, ink-blue links.","category":"Editorial","colors":[{"name":"Paper white","hex":"#FAFAF7","light":true},{"name":"Ink blue","hex":"#1A1A6E"},{"name":"Newsprint black","hex":"#0A0A0A"}],"typography":{"display":"WIRED Cond (custom serif)","body":"Georgia-style serif"},"tags":["light","editorial","blue","dense","serious"],"density":"dense","best_for":"Magazine-style editorial, long-form journalism, research reports"},
-  {"slug":"framer","name":"Framer","description":"Website builder. Bold black and blue, motion-first, design-forward.","category":"Creative","colors":[{"name":"Framer black","hex":"#0E0E10"},{"name":"Electric blue","hex":"#0055FF"},{"name":"Soft white","hex":"#FFFFFF","light":true}],"typography":{"display":"Inter Display","body":"Inter"},"tags":["dark","playful","blue","cinematic","creative"],"density":"medium","best_for":"Motion-forward sites, design portfolios, creative tools"},
-  {"slug":"supabase","name":"Supabase","description":"Open-source Firebase alternative. Dark emerald theme, code-first.","category":"Backend","colors":[{"name":"Midnight black","hex":"#1C1C1C"},{"name":"Supabase green","hex":"#3ECF8E"},{"name":"Code gray","hex":"#2A2A2A"}],"typography":{"display":"Inter","body":"Inter + JetBrains Mono"},"tags":["dark","technical","green","devtools","serious"],"density":"medium","best_for":"Technical products, developer tools, code-first sites"},
-  {"slug":"raycast","name":"Raycast","description":"Productivity launcher. Sleek dark chrome, vibrant gradient accents.","category":"Devtools","colors":[{"name":"Chrome dark","hex":"#0A0A0A"},{"name":"Raycast red","hex":"#FF6363"},{"name":"Gradient purple","hex":"#B47FFF"}],"typography":{"display":"Inter","body":"Inter"},"tags":["dark","premium","red","cinematic","technical"],"density":"medium","best_for":"Premium developer tools, productivity products"},
-  {"slug":"posthog","name":"PostHog","description":"Product analytics. Playful hedgehog branding, developer-friendly dark UI.","category":"Devtools","colors":[{"name":"PostHog orange","hex":"#F9A828"},{"name":"Dark ink","hex":"#1D1F27"},{"name":"Paper white","hex":"#FFFFFF","light":true}],"typography":{"display":"MatterSQ","body":"Inter"},"tags":["dark","playful","orange","warm","devtools"],"density":"medium","best_for":"Developer tools that want personality, friendly technical"},
-  {"slug":"cal","name":"Cal.com","description":"Open-source scheduling. Clean neutral UI, developer-oriented simplicity.","category":"Productivity","colors":[{"name":"Neutral white","hex":"#FFFFFF","light":true},{"name":"Ink black","hex":"#111827"},{"name":"Cal teal","hex":"#0D9488"}],"typography":{"display":"Inter","body":"Inter"},"tags":["light","minimal","teal","serious","productivity"],"density":"airy","best_for":"Scheduling, productivity tools, neutral SaaS"},
-  {"slug":"nike","name":"Nike","description":"Athletic retail. Monochrome UI, massive uppercase Futura, full-bleed photography.","category":"Retail","colors":[{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Nike black","hex":"#111111"},{"name":"Accent orange","hex":"#FA5400"}],"typography":{"display":"Futura uppercase","body":"Helvetica"},"tags":["light","cinematic","mono","serious","premium"],"density":"airy","best_for":"Bold statement sites, athletic or performance brands"}
+  {"slug":"notion","name":"Notion","description":"Warm minimalism, serif headings, soft surfaces.","category":"Productivity","colors":[{"name":"Warm white","hex":"#FFFFFF","light":true},{"name":"Near-black ink","hex":"#191919"},{"name":"Soft gray","hex":"#F7F6F3","light":true}],"typography":{"display":"Lyon","body":"Inter"},"tags":["light","editorial","mono","warm","serious","productivity"],"density":"medium","best_for":"Editorial, knowledge-work, consulting, writing-heavy sites"},
+  {"slug":"claude","name":"Claude","description":"Warm terracotta accent, clean editorial layout.","category":"AI","colors":[{"name":"Terracotta","hex":"#D97757"},{"name":"Warm cream","hex":"#F4F0E8","light":true},{"name":"Deep ink","hex":"#1C1C1C"}],"typography":{"display":"Styrene B","body":"Tiempos"},"tags":["light","editorial","terracotta","warm","serious","ai","premium"],"density":"medium","best_for":"AI-adjacent sites that want warmth, consulting, editorial"},
+  {"slug":"linear.app","name":"Linear","description":"Ultra-minimal, precise, purple accent.","category":"Productivity","colors":[{"name":"Ink black","hex":"#0A0A0A"},{"name":"Linear purple","hex":"#5E6AD2"},{"name":"Soft white","hex":"#F4F5F8","light":true}],"typography":{"display":"Inter Display","body":"Inter"},"tags":["dark","minimal","purple","cold","technical","devtools","serious"],"density":"medium","best_for":"Technical products, SaaS tools, precision-minded audiences"},
+  {"slug":"vercel","name":"Vercel","description":"Black and white precision, Geist.","category":"Devtools","colors":[{"name":"Pure black","hex":"#000000"},{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Neutral gray","hex":"#A1A1A1","light":true}],"typography":{"display":"Geist","body":"Geist"},"tags":["dark","minimal","mono","cold","technical","devtools"],"density":"medium","best_for":"Developer tools, precision sites, minimalist portfolios"},
+  {"slug":"mintlify","name":"Mintlify","description":"Clean, green-accented, reading-optimized docs.","category":"Devtools","colors":[{"name":"Mint green","hex":"#00C48C"},{"name":"Paper white","hex":"#FFFFFF","light":true},{"name":"Ink text","hex":"#0F172A"}],"typography":{"display":"Inter","body":"Inter"},"tags":["light","minimal","green","warm","serious","editorial"],"density":"airy","best_for":"Documentation, knowledge bases, writing-heavy sites"},
+  {"slug":"stripe","name":"Stripe","description":"Purple gradients, weight-300 elegance.","category":"Fintech","colors":[{"name":"Stripe purple","hex":"#635BFF"},{"name":"Deep navy","hex":"#0A2540"},{"name":"Soft cream","hex":"#F6F9FC","light":true}],"typography":{"display":"Sohne","body":"Sohne"},"tags":["both","premium","purple","cold","serious","fintech"],"density":"medium","best_for":"Premium SaaS, fintech, any product that wants to feel high-end"},
+  {"slug":"apple","name":"Apple","description":"Premium white space, SF Pro, cinematic imagery.","category":"Consumer","colors":[{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Apple gray","hex":"#1D1D1F"},{"name":"Apple blue","hex":"#0066CC"}],"typography":{"display":"SF Pro Display","body":"SF Pro Text"},"tags":["light","premium","blue","cinematic","serious"],"density":"airy","best_for":"Premium product pages, cinematic storytelling"},
+  {"slug":"airbnb","name":"Airbnb","description":"Warm coral accent, photography-driven, rounded UI.","category":"Consumer","colors":[{"name":"Rausch coral","hex":"#FF5A5F"},{"name":"Warm white","hex":"#FFFFFF","light":true},{"name":"Hof black","hex":"#484848"}],"typography":{"display":"Circular","body":"Circular"},"tags":["light","warm","coral","playful","friendly"],"density":"airy","best_for":"Warm consumer-facing sites, hospitality, service marketplaces"},
+  {"slug":"theverge","name":"The Verge","description":"Acid-mint and ultraviolet accents, Manuka display.","category":"Editorial","colors":[{"name":"Acid mint","hex":"#00FFC8"},{"name":"Ultraviolet","hex":"#7B1FA2"},{"name":"Deep ink","hex":"#0A0A0A"}],"typography":{"display":"Manuka","body":"Polaris"},"tags":["dark","editorial","green","cinematic","playful"],"density":"dense","best_for":"Editorial, opinion, tech writing with personality"},
+  {"slug":"wired","name":"WIRED","description":"Paper-white broadsheet density, custom serif, ink-blue.","category":"Editorial","colors":[{"name":"Paper white","hex":"#FAFAF7","light":true},{"name":"Ink blue","hex":"#1A1A6E"},{"name":"Newsprint black","hex":"#0A0A0A"}],"typography":{"display":"WIRED Cond","body":"Lora"},"tags":["light","editorial","blue","dense","serious"],"density":"dense","best_for":"Magazine-style editorial, long-form journalism, research reports"},
+  {"slug":"framer","name":"Framer","description":"Bold black and blue, motion-first, design-forward.","category":"Creative","colors":[{"name":"Framer black","hex":"#0E0E10"},{"name":"Electric blue","hex":"#0055FF"},{"name":"Soft white","hex":"#FFFFFF","light":true}],"typography":{"display":"Inter Display","body":"Inter"},"tags":["dark","playful","blue","cinematic","creative"],"density":"medium","best_for":"Motion-forward sites, design portfolios, creative tools"},
+  {"slug":"supabase","name":"Supabase","description":"Dark emerald theme, code-first.","category":"Backend","colors":[{"name":"Midnight black","hex":"#1C1C1C"},{"name":"Supabase green","hex":"#3ECF8E"},{"name":"Code gray","hex":"#2A2A2A"}],"typography":{"display":"Inter","body":"Inter"},"tags":["dark","technical","green","devtools","serious"],"density":"medium","best_for":"Technical products, developer tools, code-first sites"},
+  {"slug":"raycast","name":"Raycast","description":"Sleek dark chrome, vibrant gradient accents.","category":"Devtools","colors":[{"name":"Chrome dark","hex":"#0A0A0A"},{"name":"Raycast red","hex":"#FF6363"},{"name":"Gradient purple","hex":"#B47FFF"}],"typography":{"display":"Inter","body":"Inter"},"tags":["dark","premium","red","cinematic","technical"],"density":"medium","best_for":"Premium developer tools, productivity products"},
+  {"slug":"posthog","name":"PostHog","description":"Playful hedgehog branding, developer-friendly dark UI.","category":"Devtools","colors":[{"name":"PostHog orange","hex":"#F9A828"},{"name":"Dark ink","hex":"#1D1F27"},{"name":"Paper white","hex":"#FFFFFF","light":true}],"typography":{"display":"MatterSQ","body":"Inter"},"tags":["dark","playful","orange","warm","devtools"],"density":"medium","best_for":"Developer tools that want personality, friendly technical"},
+  {"slug":"cal","name":"Cal.com","description":"Clean neutral UI, developer-oriented simplicity.","category":"Productivity","colors":[{"name":"Neutral white","hex":"#FFFFFF","light":true},{"name":"Ink black","hex":"#111827"},{"name":"Cal teal","hex":"#0D9488"}],"typography":{"display":"Inter","body":"Inter"},"tags":["light","minimal","teal","serious","productivity"],"density":"airy","best_for":"Scheduling, productivity tools, neutral SaaS"},
+  {"slug":"nike","name":"Nike","description":"Monochrome UI, massive uppercase Futura, full-bleed photography.","category":"Retail","colors":[{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Nike black","hex":"#111111"},{"name":"Accent orange","hex":"#FA5400"}],"typography":{"display":"Futura","body":"Helvetica"},"tags":["light","cinematic","mono","serious","premium"],"density":"airy","best_for":"Bold statement sites, athletic or performance brands"}
 ];
 
 const FILTERS = {
@@ -293,6 +380,7 @@ function renderTile(site) {
   tile.target = '_blank';
   tile.rel = 'noopener';
 
+  // Color swatches strip
   const swatches = document.createElement('div');
   swatches.className = 'swatches';
   for (const c of site.colors) {
@@ -304,23 +392,53 @@ function renderTile(site) {
   }
   tile.appendChild(swatches);
 
-  const body = document.createElement('div');
-  body.className = 'tile-body';
-  body.innerHTML = `
+  // Typography specimen block
+  const display = resolveFont(site.typography.display);
+  const body = resolveFont(site.typography.body);
+  const specimen = document.createElement('div');
+  specimen.className = 'specimen';
+
+  const displayEl = document.createElement('div');
+  displayEl.className = 'specimen-display';
+  displayEl.style.fontFamily = display.stack;
+  displayEl.style.fontWeight = (site.tags.includes("editorial") || site.tags.includes("premium")) ? "700" : "600";
+  displayEl.textContent = site.name;
+  specimen.appendChild(displayEl);
+
+  const bodyEl = document.createElement('div');
+  bodyEl.className = 'specimen-body';
+  bodyEl.style.fontFamily = body.stack;
+  bodyEl.textContent = "Operating models are being rewritten by AI. The fast, the slow, the quiet, and the loud are all feeling it.";
+  specimen.appendChild(bodyEl);
+
+  const labels = document.createElement('div');
+  labels.className = 'specimen-labels';
+  const displayLabel = document.createElement('div');
+  displayLabel.innerHTML = `<strong>Display:</strong> ${site.typography.display}` +
+    (display.substitute ? ` <span class="specimen-note">(shown: ${display.substitute})</span>` : "");
+  labels.appendChild(displayLabel);
+  const bodyLabel = document.createElement('div');
+  bodyLabel.innerHTML = `<strong>Body:</strong> ${site.typography.body}` +
+    (body.substitute ? ` <span class="specimen-note">(shown: ${body.substitute})</span>` : "");
+  labels.appendChild(bodyLabel);
+  specimen.appendChild(labels);
+
+  tile.appendChild(specimen);
+
+  // Tile body (metadata)
+  const tbody = document.createElement('div');
+  tbody.className = 'tile-body';
+  tbody.innerHTML = `
     <div class="tile-head">
       <div class="tile-name">${site.name}</div>
       <div class="tile-category">${site.category}</div>
     </div>
     <div class="tile-desc">${site.description}</div>
-    <div class="tile-type">
-      <strong>Display:</strong> ${site.typography.display}<br>
-      <strong>Body:</strong> ${site.typography.body}
-    </div>
     <div class="tile-tags">${site.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
     <div class="tile-best-for"><strong>Best for:</strong> ${site.best_for}</div>
     <div class="tile-action">Open full DESIGN.md &rarr;</div>
   `;
-  tile.appendChild(body);
+  tile.appendChild(tbody);
   return tile;
 }
 
