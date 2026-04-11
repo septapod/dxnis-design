@@ -11,62 +11,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 
+<!--
+  Single source of truth: loads DSL tokens directly from the dxnis repo on GitHub via jsDelivr.
+  Any change to css/dsl-tokens.css on main updates both dxn.is (live site) and design.dxn.is (this page).
+  Cache TTL is ~12 hours on @main. Use the "Purge cache" button (bottom-right) to force-refresh instantly.
+  See scripts/sync-design-md.mjs in the dxnis repo to also sync DESIGN.md documentation from this file.
+-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/septapod/dxnis@main/css/dsl-tokens.css">
+
 <style>
   :root {
-    /* DSL brand (universal) */
-    --brand-gold: #FBE248;
-    --brand-coral: #CF5A5A;
-    --brand-teal: #437481;
-
-    /* Dark theme (default) */
-    --color-bg: #09090B;
-    --color-surface: #111114;
-    --color-surface-elevated: #1A1A1F;
-    --color-surface-hover: #242429;
-    --color-border: #2A2A32;
-    --color-border-hover: #3A3A44;
-    --color-text: #FAFAFA;
-    --color-text-body: #E8E8ED;
-    --color-text-dim: #8A8A96;
-    --color-text-muted: #55555F;
-    --color-primary: #437481;
-    --color-accent: #FBE248;
-    --color-alert: #CF5A5A;
-
-    /* Spacing (8px base grid) */
-    --space-1: 8px;
-    --space-2: 16px;
-    --space-3: 24px;
-    --space-4: 32px;
-    --space-6: 48px;
-    --space-8: 64px;
-    --space-10: 80px;
-    --space-12: 96px;
-    --space-16: 128px;
-
-    /* Radii */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
-
-    /* Shadows (dark mode) */
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
-    --shadow-glow: 0 0 20px rgba(67, 116, 129, 0.15);
-
-    /* Transitions */
-    --transition-fast: 0.15s ease;
-    --transition-quick: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Fonts */
-    --font-display: 'Satoshi', system-ui, sans-serif;
-    --font-body: 'Karla', system-ui, sans-serif;
-    --font-serif: 'Lora', Georgia, serif;
+    /*
+      All design tokens (brand colors, theme tokens, spacing, radii, shadows, transitions,
+      display/body/serif fonts) are loaded from dsl-tokens.css via jsDelivr above. Do not
+      redefine them here. Edit css/dsl-tokens.css in the dxnis repo to change them.
+      The variables below are page-specific (only used by design.dxn.is).
+    */
     --font-mono: 'IBM Plex Mono', monospace;
-
-    /* Layout */
     --max-width: 1400px;
     --site-gutter: clamp(24px, 5vw, 80px);
   }
@@ -439,12 +400,18 @@
   }
   .rules-col li:last-child { border-bottom: none; }
 
-  /* ========== Copy DESIGN.md sticky button ========== */
-  .copy-sticky {
+  /* ========== Floating action buttons ========== */
+  .float-actions {
     position: fixed;
     bottom: 24px;
     right: 24px;
     z-index: 90;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .copy-sticky {
     padding: 14px 24px;
     background: var(--brand-gold);
     border: 1px solid var(--brand-gold);
@@ -465,9 +432,27 @@
     color: var(--color-text);
     transform: translateY(-2px);
   }
+  .purge-sticky {
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-quick);
+  }
+  .purge-sticky:hover {
+    border-color: var(--brand-teal);
+    color: var(--brand-teal);
+  }
   .copy-toast {
     position: fixed;
-    bottom: 90px;
+    bottom: 110px;
     right: 24px;
     z-index: 91;
     padding: 12px 20px;
@@ -481,6 +466,7 @@
     transform: translateY(8px);
     pointer-events: none;
     transition: all var(--transition-quick);
+    max-width: 320px;
   }
   .copy-toast.show { opacity: 1; transform: translateY(0); }
 </style>
@@ -719,30 +705,52 @@
   </div>
 </section>
 
-<!-- ========== STICKY COPY BUTTON ========== -->
-<button class="copy-sticky" id="copyBtn" aria-label="Copy DESIGN.md to clipboard">Copy DESIGN.md</button>
+<!-- ========== FLOATING ACTIONS ========== -->
+<div class="float-actions">
+  <button class="copy-sticky" id="copyBtn" aria-label="Copy DESIGN.md to clipboard">Copy DESIGN.md</button>
+  <button class="purge-sticky" id="purgeBtn" aria-label="Purge jsDelivr cache for dsl-tokens.css">Purge token cache</button>
+</div>
 <div class="copy-toast" id="copyToast">DESIGN.md copied to clipboard</div>
 
 <script>
-const DESIGN_MD_URL = 'https://raw.githubusercontent.com/septapod/dxnis/feat/site-transformation/DESIGN.md';
+const DESIGN_MD_URL = 'https://raw.githubusercontent.com/septapod/dxnis/main/DESIGN.md';
+const TOKENS_PURGE_URL = 'https://purge.jsdelivr.net/gh/septapod/dxnis@main/css/dsl-tokens.css';
 const copyBtn = document.getElementById('copyBtn');
+const purgeBtn = document.getElementById('purgeBtn');
 const toast = document.getElementById('copyToast');
+
+function showToast(msg, duration) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), duration || 2400);
+}
+
 copyBtn.addEventListener('click', async () => {
   copyBtn.textContent = 'Fetching...';
   try {
-    const res = await fetch(DESIGN_MD_URL);
+    const res = await fetch(DESIGN_MD_URL, { cache: 'no-cache' });
     if (!res.ok) throw new Error('Fetch failed');
     const text = await res.text();
     await navigator.clipboard.writeText(text);
     copyBtn.textContent = 'Copied!';
-    toast.classList.add('show');
-    setTimeout(() => {
-      toast.classList.remove('show');
-      copyBtn.textContent = 'Copy DESIGN.md';
-    }, 2400);
+    showToast('DESIGN.md copied to clipboard');
+    setTimeout(() => { copyBtn.textContent = 'Copy DESIGN.md'; }, 2400);
   } catch (err) {
     copyBtn.textContent = 'Error. Retry?';
     setTimeout(() => { copyBtn.textContent = 'Copy DESIGN.md'; }, 2400);
+  }
+});
+
+purgeBtn.addEventListener('click', async () => {
+  purgeBtn.textContent = 'Purging...';
+  try {
+    const res = await fetch(TOKENS_PURGE_URL, { method: 'GET', mode: 'no-cors' });
+    purgeBtn.textContent = 'Purged. Reload?';
+    showToast('Token cache purged. Reload the page to see updated tokens.', 4200);
+    setTimeout(() => { purgeBtn.textContent = 'Purge token cache'; }, 4200);
+  } catch (err) {
+    purgeBtn.textContent = 'Error. Retry?';
+    setTimeout(() => { purgeBtn.textContent = 'Purge token cache'; }, 2400);
   }
 });
 </script>
