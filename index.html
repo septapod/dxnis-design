@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DESIGN.md Style Tile Gallery</title>
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --surface: #141418;
+    --surface-2: #1d1d22;
+    --border: #2a2a30;
+    --text: #f5f5f7;
+    --text-dim: #9a9aa2;
+    --accent: #fbe248;
+    --accent-teal: #437481;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 32px;
+    min-height: 100vh;
+  }
+  header {
+    max-width: 1400px;
+    margin: 0 auto 32px;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .lede {
+    color: var(--text-dim);
+    max-width: 70ch;
+    margin-bottom: 24px;
+  }
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-right: 16px;
+    border-right: 1px solid var(--border);
+  }
+  .filter-group:last-child { border-right: none; }
+  .filter-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 4px;
+  }
+  .filter-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .filter-btn:hover {
+    color: var(--text);
+    border-color: var(--text-dim);
+  }
+  .filter-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .count {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+  .tile:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .swatches {
+    display: flex;
+    height: 80px;
+  }
+  .swatch {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px;
+    font-size: 0.65rem;
+    font-family: 'SF Mono', Menlo, monospace;
+    color: rgba(255,255,255,0.7);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .swatch.light {
+    color: rgba(0,0,0,0.5);
+    text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+  }
+  .tile-body {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .tile-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .tile-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .tile-category {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tile-desc {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    flex: 1;
+  }
+  .tile-type {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .tile-type strong { color: var(--text); }
+  .tile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    background: var(--surface-2);
+    border-radius: 10px;
+    color: var(--text-dim);
+  }
+  .tile-action {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+  .tile-best-for {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+  .tile-best-for strong { color: var(--text); font-style: normal; }
+  footer {
+    max-width: 1400px;
+    margin: 48px auto 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+  footer code {
+    background: var(--surface);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>DESIGN.md Style Tile Gallery</h1>
+  <p class="lede">Curated reference sites from the VoltAgent <code style="padding:2px 6px;background:#1d1d22;border-radius:4px;">awesome-design-md</code> catalog. Filter to narrow, click any tile to open the full DESIGN.md at getdesign.md. Use this as a starting point when initializing a new project's design system.</p>
+  <div class="filter-bar" id="filterBar"></div>
+  <div class="count" id="count"></div>
+</header>
+<div class="grid" id="grid"></div>
+<footer>
+  Data lives in <code>~/.claude/skills/design-md/catalog.json</code>. Add more entries to grow the gallery.
+</footer>
+
+<script>
+const SITES = [
+  {"slug":"notion","name":"Notion","description":"All-in-one workspace. Warm minimalism, serif headings, soft surfaces.","category":"Productivity","colors":[{"name":"Warm white","hex":"#FFFFFF","light":true},{"name":"Near-black ink","hex":"#191919"},{"name":"Soft gray","hex":"#F7F6F3","light":true}],"typography":{"display":"Lyon (serif) / Inter","body":"Inter, system-ui"},"tags":["light","editorial","mono","warm","serious","productivity"],"density":"medium","best_for":"Editorial, knowledge-work, consulting, writing-heavy sites"},
+  {"slug":"claude","name":"Claude","description":"Anthropic's AI assistant. Warm terracotta accent, clean editorial layout.","category":"AI","colors":[{"name":"Terracotta","hex":"#D97757"},{"name":"Warm cream","hex":"#F4F0E8","light":true},{"name":"Deep ink","hex":"#1C1C1C"}],"typography":{"display":"Styrene B","body":"Tiempos serif + Styrene B"},"tags":["light","editorial","terracotta","warm","serious","ai","premium"],"density":"medium","best_for":"AI-adjacent sites that want warmth, consulting, editorial"},
+  {"slug":"linear.app","name":"Linear","description":"Project management for engineers. Ultra-minimal, precise, purple accent.","category":"Productivity","colors":[{"name":"Ink black","hex":"#0A0A0A"},{"name":"Linear purple","hex":"#5E6AD2"},{"name":"Soft white","hex":"#F4F5F8","light":true}],"typography":{"display":"Inter Display","body":"Inter"},"tags":["dark","minimal","purple","cold","technical","devtools","serious"],"density":"medium","best_for":"Technical products, SaaS tools, precision-minded audiences"},
+  {"slug":"vercel","name":"Vercel","description":"Frontend deployment platform. Black and white precision, Geist font.","category":"Devtools","colors":[{"name":"Pure black","hex":"#000000"},{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Neutral gray","hex":"#A1A1A1","light":true}],"typography":{"display":"Geist Sans","body":"Geist Sans"},"tags":["dark","minimal","mono","cold","technical","devtools"],"density":"medium","best_for":"Developer tools, precision sites, minimalist portfolios"},
+  {"slug":"mintlify","name":"Mintlify","description":"Documentation platform. Clean, green-accented, reading-optimized.","category":"Devtools","colors":[{"name":"Mint green","hex":"#00C48C"},{"name":"Paper white","hex":"#FFFFFF","light":true},{"name":"Ink text","hex":"#0F172A"}],"typography":{"display":"Inter","body":"Inter"},"tags":["light","minimal","green","warm","serious","editorial"],"density":"airy","best_for":"Documentation, knowledge bases, writing-heavy sites"},
+  {"slug":"stripe","name":"Stripe","description":"Payment infrastructure. Signature purple gradients, weight-300 elegance.","category":"Fintech","colors":[{"name":"Stripe purple","hex":"#635BFF"},{"name":"Deep navy","hex":"#0A2540"},{"name":"Soft cream","hex":"#F6F9FC","light":true}],"typography":{"display":"Sohne (custom)","body":"Sohne"},"tags":["both","premium","purple","cold","serious","fintech"],"density":"medium","best_for":"Premium SaaS, fintech, any product that wants to feel high-end"},
+  {"slug":"apple","name":"Apple","description":"Consumer electronics. Premium white space, SF Pro, cinematic imagery.","category":"Consumer","colors":[{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Apple gray","hex":"#1D1D1F"},{"name":"Apple blue","hex":"#0066CC"}],"typography":{"display":"SF Pro Display","body":"SF Pro Text"},"tags":["light","premium","blue","cinematic","serious"],"density":"airy","best_for":"Premium product pages, cinematic storytelling"},
+  {"slug":"airbnb","name":"Airbnb","description":"Travel marketplace. Warm coral accent, photography-driven, rounded UI.","category":"Consumer","colors":[{"name":"Rausch coral","hex":"#FF5A5F"},{"name":"Warm white","hex":"#FFFFFF","light":true},{"name":"Hof black","hex":"#484848"}],"typography":{"display":"Circular","body":"Circular"},"tags":["light","warm","coral","playful","friendly"],"density":"airy","best_for":"Warm consumer-facing sites, hospitality, service marketplaces"},
+  {"slug":"theverge","name":"The Verge","description":"Tech editorial media. Acid-mint and ultraviolet accents, Manuka display type.","category":"Editorial","colors":[{"name":"Acid mint","hex":"#00FFC8"},{"name":"Ultraviolet","hex":"#7B1FA2"},{"name":"Deep ink","hex":"#0A0A0A"}],"typography":{"display":"Manuka (custom)","body":"Polaris serif"},"tags":["dark","editorial","green","cinematic","playful"],"density":"dense","best_for":"Editorial, opinion, tech writing with personality"},
+  {"slug":"wired","name":"WIRED","description":"Tech magazine. Paper-white broadsheet density, custom serif, ink-blue links.","category":"Editorial","colors":[{"name":"Paper white","hex":"#FAFAF7","light":true},{"name":"Ink blue","hex":"#1A1A6E"},{"name":"Newsprint black","hex":"#0A0A0A"}],"typography":{"display":"WIRED Cond (custom serif)","body":"Georgia-style serif"},"tags":["light","editorial","blue","dense","serious"],"density":"dense","best_for":"Magazine-style editorial, long-form journalism, research reports"},
+  {"slug":"framer","name":"Framer","description":"Website builder. Bold black and blue, motion-first, design-forward.","category":"Creative","colors":[{"name":"Framer black","hex":"#0E0E10"},{"name":"Electric blue","hex":"#0055FF"},{"name":"Soft white","hex":"#FFFFFF","light":true}],"typography":{"display":"Inter Display","body":"Inter"},"tags":["dark","playful","blue","cinematic","creative"],"density":"medium","best_for":"Motion-forward sites, design portfolios, creative tools"},
+  {"slug":"supabase","name":"Supabase","description":"Open-source Firebase alternative. Dark emerald theme, code-first.","category":"Backend","colors":[{"name":"Midnight black","hex":"#1C1C1C"},{"name":"Supabase green","hex":"#3ECF8E"},{"name":"Code gray","hex":"#2A2A2A"}],"typography":{"display":"Inter","body":"Inter + JetBrains Mono"},"tags":["dark","technical","green","devtools","serious"],"density":"medium","best_for":"Technical products, developer tools, code-first sites"},
+  {"slug":"raycast","name":"Raycast","description":"Productivity launcher. Sleek dark chrome, vibrant gradient accents.","category":"Devtools","colors":[{"name":"Chrome dark","hex":"#0A0A0A"},{"name":"Raycast red","hex":"#FF6363"},{"name":"Gradient purple","hex":"#B47FFF"}],"typography":{"display":"Inter","body":"Inter"},"tags":["dark","premium","red","cinematic","technical"],"density":"medium","best_for":"Premium developer tools, productivity products"},
+  {"slug":"posthog","name":"PostHog","description":"Product analytics. Playful hedgehog branding, developer-friendly dark UI.","category":"Devtools","colors":[{"name":"PostHog orange","hex":"#F9A828"},{"name":"Dark ink","hex":"#1D1F27"},{"name":"Paper white","hex":"#FFFFFF","light":true}],"typography":{"display":"MatterSQ","body":"Inter"},"tags":["dark","playful","orange","warm","devtools"],"density":"medium","best_for":"Developer tools that want personality, friendly technical"},
+  {"slug":"cal","name":"Cal.com","description":"Open-source scheduling. Clean neutral UI, developer-oriented simplicity.","category":"Productivity","colors":[{"name":"Neutral white","hex":"#FFFFFF","light":true},{"name":"Ink black","hex":"#111827"},{"name":"Cal teal","hex":"#0D9488"}],"typography":{"display":"Inter","body":"Inter"},"tags":["light","minimal","teal","serious","productivity"],"density":"airy","best_for":"Scheduling, productivity tools, neutral SaaS"},
+  {"slug":"nike","name":"Nike","description":"Athletic retail. Monochrome UI, massive uppercase Futura, full-bleed photography.","category":"Retail","colors":[{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Nike black","hex":"#111111"},{"name":"Accent orange","hex":"#FA5400"}],"typography":{"display":"Futura uppercase","body":"Helvetica"},"tags":["light","cinematic","mono","serious","premium"],"density":"airy","best_for":"Bold statement sites, athletic or performance brands"}
+];
+
+const FILTERS = {
+  theme: ["dark", "light", "both"],
+  style: ["minimal", "editorial", "playful", "premium", "cinematic", "technical", "warm"],
+  accent: ["mono", "terracotta", "purple", "teal", "green", "blue", "coral", "red", "orange", "gold"],
+  vibe: ["serious", "playful", "warm", "cold", "friendly"]
+};
+
+const activeFilters = { theme: null, style: null, accent: null, vibe: null };
+
+function renderFilters() {
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = '';
+  for (const [key, values] of Object.entries(FILTERS)) {
+    const group = document.createElement('div');
+    group.className = 'filter-group';
+    const label = document.createElement('span');
+    label.className = 'filter-label';
+    label.textContent = key;
+    group.appendChild(label);
+    const allBtn = document.createElement('button');
+    allBtn.className = 'filter-btn' + (activeFilters[key] === null ? ' active' : '');
+    allBtn.textContent = 'all';
+    allBtn.onclick = () => { activeFilters[key] = null; render(); };
+    group.appendChild(allBtn);
+    for (const v of values) {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn' + (activeFilters[key] === v ? ' active' : '');
+      btn.textContent = v;
+      btn.onclick = () => { activeFilters[key] = v; render(); };
+      group.appendChild(btn);
+    }
+    bar.appendChild(group);
+  }
+}
+
+function matches(site) {
+  for (const [key, value] of Object.entries(activeFilters)) {
+    if (value && !site.tags.includes(value)) return false;
+  }
+  return true;
+}
+
+function renderTile(site) {
+  const tile = document.createElement('a');
+  tile.className = 'tile';
+  tile.href = `https://getdesign.md/${site.slug}/design-md`;
+  tile.target = '_blank';
+  tile.rel = 'noopener';
+
+  const swatches = document.createElement('div');
+  swatches.className = 'swatches';
+  for (const c of site.colors) {
+    const sw = document.createElement('div');
+    sw.className = 'swatch' + (c.light ? ' light' : '');
+    sw.style.background = c.hex;
+    sw.textContent = c.hex;
+    swatches.appendChild(sw);
+  }
+  tile.appendChild(swatches);
+
+  const body = document.createElement('div');
+  body.className = 'tile-body';
+  body.innerHTML = `
+    <div class="tile-head">
+      <div class="tile-name">${site.name}</div>
+      <div class="tile-category">${site.category}</div>
+    </div>
+    <div class="tile-desc">${site.description}</div>
+    <div class="tile-type">
+      <strong>Display:</strong> ${site.typography.display}<br>
+      <strong>Body:</strong> ${site.typography.body}
+    </div>
+    <div class="tile-tags">${site.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    <div class="tile-best-for"><strong>Best for:</strong> ${site.best_for}</div>
+    <div class="tile-action">Open full DESIGN.md &rarr;</div>
+  `;
+  tile.appendChild(body);
+  return tile;
+}
+
+function render() {
+  renderFilters();
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const filtered = SITES.filter(matches);
+  document.getElementById('count').textContent = `Showing ${filtered.length} of ${SITES.length} references`;
+  for (const site of filtered) {
+    grid.appendChild(renderTile(site));
+  }
+}
+
+render();
+</script>
+</body>
+</html>
