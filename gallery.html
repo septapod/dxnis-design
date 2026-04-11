@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DESIGN.md Style Tile Gallery</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Jost:wght@300;400;500;600;700&family=Karla:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Spectral:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=switzer@300,400,500,600,700&f[]=ranade@400,500,600,700&f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --surface: #141418;
+    --surface-2: #1d1d22;
+    --border: #2a2a30;
+    --text: #f5f5f7;
+    --text-dim: #9a9aa2;
+    --accent: #fbe248;
+    --accent-teal: #437481;
+    --radius: 12px;
+    --ui-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--ui-font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 32px;
+    padding-top: 80px;
+    min-height: 100vh;
+  }
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10, 10, 11, 0.85);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .site-nav-brand {
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .site-nav-brand span { color: var(--accent); }
+  .site-nav-links {
+    display: flex;
+    gap: 24px;
+  }
+  .site-nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+  .site-nav-links a:hover,
+  .site-nav-links a.active { color: var(--accent); }
+  header {
+    max-width: 1400px;
+    margin: 0 auto 32px;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .lede {
+    color: var(--text-dim);
+    max-width: 70ch;
+    margin-bottom: 24px;
+  }
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-right: 16px;
+    border-right: 1px solid var(--border);
+  }
+  .filter-group:last-child { border-right: none; }
+  .filter-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 4px;
+  }
+  .filter-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .filter-btn:hover {
+    color: var(--text);
+    border-color: var(--text-dim);
+  }
+  .filter-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .count {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+  .tile:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .swatches {
+    display: flex;
+    height: 64px;
+  }
+  .swatch {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 6px 8px;
+    font-size: 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .swatch.light {
+    color: rgba(0,0,0,0.55);
+    text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+  }
+
+  .specimen {
+    padding: 24px 20px 18px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .specimen-display {
+    font-size: 2.4rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+    color: var(--text);
+    overflow-wrap: break-word;
+  }
+  .specimen-body {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  .specimen-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+  .specimen-labels strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .specimen-note {
+    font-style: italic;
+    opacity: 0.65;
+  }
+
+  .tile-body {
+    padding: 16px 20px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .tile-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .tile-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .tile-category {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tile-desc {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    flex: 1;
+  }
+  .tile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    background: var(--surface-2);
+    border-radius: 10px;
+    color: var(--text-dim);
+  }
+  .tile-best-for {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .tile-best-for strong { color: var(--text); }
+  .tile-action {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+  /* Featured DSL tile */
+  .featured {
+    max-width: 1400px;
+    margin: 0 auto 48px;
+  }
+  .featured-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .dsl-tile {
+    background: #09090B;
+    border: 1px solid #2A2A32;
+    border-radius: 20px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    min-height: 420px;
+  }
+  .dsl-left {
+    padding: 48px 40px;
+    background: linear-gradient(135deg, #09090B 0%, #111114 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .dsl-eyebrow {
+    font-family: 'Karla', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #FBE248;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .dsl-display {
+    font-family: 'Satoshi', 'Manrope', sans-serif;
+    font-size: 3rem;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #FAFAFA;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .dsl-body {
+    font-family: 'Karla', sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: #E8E8ED;
+    max-width: 52ch;
+    margin-bottom: 24px;
+  }
+  .dsl-quote {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #8A8A96;
+    padding-left: 16px;
+    border-left: 2px solid #437481;
+    max-width: 52ch;
+  }
+  .dsl-btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .dsl-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border: 1px solid #FAFAFA;
+    border-radius: 0;
+    background: transparent;
+    color: #FAFAFA;
+    font-family: 'Karla', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .dsl-btn:hover {
+    background: #FBE248;
+    border-color: #FBE248;
+    color: #09090B;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(251, 226, 72, 0.2);
+  }
+  .dsl-btn-primary {
+    background: #FBE248;
+    border-color: #FBE248;
+    color: #09090B;
+  }
+  .dsl-btn-primary:hover {
+    background: #437481;
+    border-color: #437481;
+    color: #FAFAFA;
+  }
+  .dsl-right {
+    padding: 40px 32px;
+    background: #111114;
+    border-left: 1px solid #2A2A32;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .dsl-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .dsl-section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #55555F;
+  }
+  .dsl-swatches {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .dsl-swatch {
+    aspect-ratio: 1.2;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .dsl-swatch-name {
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .dsl-swatch-hex {
+    color: rgba(255,255,255,0.65);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .dsl-swatch.light .dsl-swatch-name,
+  .dsl-swatch.light .dsl-swatch-hex {
+    color: rgba(0,0,0,0.7);
+    text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+  }
+  .dsl-type-specimens {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .dsl-type-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .dsl-type-sample {
+    color: #FAFAFA;
+  }
+  .dsl-type-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: #55555F;
+  }
+  @media (max-width: 768px) {
+    .dsl-tile {
+      grid-template-columns: 1fr;
+    }
+    .dsl-display { font-size: 2.2rem; }
+    .dsl-left { padding: 32px 24px; }
+    .dsl-right { padding: 24px; border-left: none; border-top: 1px solid #2A2A32; }
+  }
+
+  footer {
+    max-width: 1400px;
+    margin: 48px auto 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+  footer code {
+    background: var(--surface);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="site-nav-brand">design<span>.dxn.is</span></a>
+  <div class="site-nav-links">
+    <a href="/">DSL</a>
+    <a href="/gallery" class="active">Gallery</a>
+    <a href="https://github.com/septapod/dxnis-design" target="_blank" rel="noopener">Source</a>
+  </div>
+</nav>
+
+<header>
+  <h1>Reference Gallery</h1>
+  <p class="lede">Curated reference design systems from the VoltAgent <code style="padding:2px 6px;background:#1d1d22;border-radius:4px;font-family:'IBM Plex Mono',monospace;">awesome-design-md</code> catalog. Each tile shows the real color palette and typography rendered in the actual or closest available font. Use the gallery to compare aesthetics when initializing a new project. The DSL brand system itself lives on the <a href="/" style="color:var(--accent);">home page</a>.</p>
+</header>
+
+<section class="featured" style="display:none;">
+  <div class="featured-label">Your brand</div>
+  <div class="dsl-tile">
+    <div class="dsl-left">
+      <div>
+        <div class="dsl-eyebrow">Dixon Strategic Labs</div>
+        <div class="dsl-display">The quick brown fox jumps over the lazy dog.</div>
+        <div class="dsl-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</div>
+        <div class="dsl-quote">"No matter the problem, community is the answer." (Margaret Wheatley)</div>
+      </div>
+      <div class="dsl-btn-row">
+        <a href="https://dxn.is" target="_blank" rel="noopener" class="dsl-btn dsl-btn-primary">Visit dxn.is</a>
+        <a href="https://github.com/septapod/dxnis/blob/feat/site-transformation/DESIGN.md" target="_blank" rel="noopener" class="dsl-btn">Read DESIGN.md</a>
+      </div>
+    </div>
+    <div class="dsl-right">
+      <div class="dsl-section">
+        <div class="dsl-section-label">Brand colors</div>
+        <div class="dsl-swatches">
+          <div class="dsl-swatch" style="background:#FBE248;" class="light">
+            <span class="dsl-swatch-name" style="color:rgba(0,0,0,0.7);">Gold</span>
+            <span class="dsl-swatch-hex" style="color:rgba(0,0,0,0.5);">#FBE248</span>
+          </div>
+          <div class="dsl-swatch" style="background:#CF5A5A;">
+            <span class="dsl-swatch-name">Coral</span>
+            <span class="dsl-swatch-hex">#CF5A5A</span>
+          </div>
+          <div class="dsl-swatch" style="background:#437481;">
+            <span class="dsl-swatch-name">Teal</span>
+            <span class="dsl-swatch-hex">#437481</span>
+          </div>
+          <div class="dsl-swatch" style="background:#09090B; border-color:#2A2A32;">
+            <span class="dsl-swatch-name">BG</span>
+            <span class="dsl-swatch-hex">#09090B</span>
+          </div>
+        </div>
+      </div>
+      <div class="dsl-section">
+        <div class="dsl-section-label">Typography</div>
+        <div class="dsl-type-specimens">
+          <div class="dsl-type-row">
+            <div class="dsl-type-sample" style="font-family:'Satoshi','Manrope',sans-serif; font-size:1.5rem; font-weight:700; line-height:1.1;">Satoshi Display</div>
+            <div class="dsl-type-meta">Display. Self-hosted. Weights 400, 500, 700.</div>
+          </div>
+          <div class="dsl-type-row">
+            <div class="dsl-type-sample" style="font-family:'Karla',sans-serif; font-size:0.95rem; line-height:1.6;">Karla Body paragraph with a reading column capped at 70 characters for comfort.</div>
+            <div class="dsl-type-meta">Body. Google Fonts. Weights 300–700.</div>
+          </div>
+          <div class="dsl-type-row">
+            <div class="dsl-type-sample" style="font-family:'Lora',serif; font-style:italic; font-size:0.95rem;">Lora Serif Accent for pull quotes</div>
+            <div class="dsl-type-meta">Serif accent. Google Fonts.</div>
+          </div>
+        </div>
+      </div>
+      <div class="dsl-section">
+        <div class="dsl-section-label">Philosophy</div>
+        <div style="font-family:'Karla',sans-serif; font-size:0.8rem; color:#8A8A96; line-height:1.5;">Swiss Grid (Müller-Brockmann). 8px baseline. Dark-first. Signature gold-fill button hover with gradient underline sweep.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<header>
+  <div class="featured-label" style="margin-bottom:16px;">Gallery</div>
+  <div class="filter-bar" id="filterBar"></div>
+  <div class="count" id="count"></div>
+</header>
+<div class="grid" id="grid"></div>
+<footer>
+  Data lives in <code>~/.claude/skills/design-md/catalog.json</code>. Hosted at design.dxn.is.
+</footer>
+
+<script>
+// Mapping from declared fonts to available CSS font stacks.
+// Closest available substitute chosen from Google Fonts or Fontshare.
+// A font is "real" when it's the actual original; otherwise labeled as a substitute.
+const FONT_RENDER = {
+  // Actually available originals
+  "Inter": { stack: "'Inter', sans-serif", real: true },
+  "Inter Display": { stack: "'Inter', sans-serif", real: true },
+  "Manrope": { stack: "'Manrope', sans-serif", real: true },
+  "Fraunces": { stack: "'Fraunces', serif", real: true },
+  "Jost": { stack: "'Jost', sans-serif", real: true },
+  "Karla": { stack: "'Karla', sans-serif", real: true },
+  "Lora": { stack: "'Lora', serif", real: true },
+  "IBM Plex Mono": { stack: "'IBM Plex Mono', monospace", real: true },
+  "JetBrains Mono": { stack: "'JetBrains Mono', monospace", real: true },
+  "Space Grotesk": { stack: "'Space Grotesk', sans-serif", real: true },
+  "Libre Caslon": { stack: "'Libre Caslon Text', serif", real: true },
+  "DM Serif": { stack: "'DM Serif Display', serif", real: true },
+  "Satoshi": { stack: "'Satoshi', sans-serif", real: true },  // Now loaded from Fontshare
+  "Geist": { stack: "'Geist', sans-serif", real: true },       // Now on Google Fonts
+  "Geist Sans": { stack: "'Geist', sans-serif", real: true },
+  "Source Serif": { stack: "'Source Serif 4', serif", real: true },
+  "Spectral": { stack: "'Spectral', serif", real: true },
+  "Nunito": { stack: "'Nunito', sans-serif", real: true },
+  "Playfair": { stack: "'Playfair Display', serif", real: true },
+  "Switzer": { stack: "'Switzer', sans-serif", real: true },
+  "Ranade": { stack: "'Ranade', sans-serif", real: true },
+  "Clash Display": { stack: "'Clash Display', sans-serif", real: true },
+  "Helvetica": { stack: "Helvetica, 'Inter', sans-serif", real: true },
+
+  // Closest substitutes for proprietary fonts (refined from feedback)
+  // Sohne is a geometric grotesk with humanist touches — Switzer is the closest free match
+  "Sohne": { stack: "'Switzer', sans-serif", substitute: "Switzer" },
+  // Tiempos is a modern serif with high contrast — Source Serif 4 is the closest free match
+  "Tiempos": { stack: "'Source Serif 4', serif", substitute: "Source Serif 4" },
+  // Styrene B is a geometric display sans — Ranade is the closest free match
+  "Styrene B": { stack: "'Ranade', sans-serif", substitute: "Ranade" },
+  // Lyon is an old-style literary serif — Spectral is the closest free match
+  "Lyon": { stack: "'Spectral', serif", substitute: "Spectral" },
+  // Circular is a geometric humanist sans — Nunito is the closest free match
+  "Circular": { stack: "'Nunito', sans-serif", substitute: "Nunito" },
+  // Manuka is a custom display serif — Playfair Display is a reasonable stand-in
+  "Manuka": { stack: "'Playfair Display', serif", substitute: "Playfair Display" },
+  // Futura is a geometric Bauhaus sans — Jost was literally designed as a free Futura-alike
+  "Futura": { stack: "'Jost', sans-serif", substitute: "Jost (Futura-alike)" },
+  // SF Pro falls through to the system font on Apple devices, Inter elsewhere
+  "SF Pro": { stack: "-apple-system, 'Inter', sans-serif", substitute: "SF Pro (system) or Inter" },
+  "SF Pro Display": { stack: "-apple-system, 'Inter', sans-serif", substitute: "SF Pro (system) or Inter" },
+  "SF Pro Text": { stack: "-apple-system, 'Inter', sans-serif", substitute: "SF Pro (system) or Inter" },
+  // Geist Mono
+  "Geist Mono": { stack: "'JetBrains Mono', monospace", substitute: "JetBrains Mono" },
+  // MatterSQ is a geometric sans with square terminals — Space Grotesk is the closest free match
+  "MatterSQ": { stack: "'Space Grotesk', sans-serif", substitute: "Space Grotesk" },
+  // Polaris is The Verge's custom serif — Source Serif 4 is a reasonable fit
+  "Polaris": { stack: "'Source Serif 4', serif", substitute: "Source Serif 4" },
+  // WIRED Cond is a custom condensed serif — Playfair Display is the closest free match
+  "WIRED Cond": { stack: "'Playfair Display', serif", substitute: "Playfair Display" }
+};
+
+function resolveFont(declared) {
+  if (!declared) return FONT_RENDER["Inter"];
+  const cleaned = declared.replace(/\(.*?\)/g, "").trim();
+  if (FONT_RENDER[cleaned]) return FONT_RENDER[cleaned];
+  const firstWord = cleaned.split(/[\s,/]/)[0];
+  if (FONT_RENDER[firstWord]) return FONT_RENDER[firstWord];
+  for (const key of Object.keys(FONT_RENDER)) {
+    if (cleaned.toLowerCase().includes(key.toLowerCase())) return FONT_RENDER[key];
+  }
+  return FONT_RENDER["Inter"];
+}
+
+const SITES = [
+  {"slug":"notion","name":"Notion","description":"Warm minimalism, serif headings, soft surfaces.","category":"Productivity","colors":[{"name":"Warm white","hex":"#FFFFFF","light":true},{"name":"Near-black ink","hex":"#191919"},{"name":"Soft gray","hex":"#F7F6F3","light":true}],"typography":{"display":"Lyon","body":"Inter"},"tags":["light","editorial","mono","warm","serious","productivity"],"density":"medium","best_for":"Editorial, knowledge-work, consulting, writing-heavy sites"},
+  {"slug":"claude","name":"Claude","description":"Warm terracotta accent, clean editorial layout.","category":"AI","colors":[{"name":"Terracotta","hex":"#D97757"},{"name":"Warm cream","hex":"#F4F0E8","light":true},{"name":"Deep ink","hex":"#1C1C1C"}],"typography":{"display":"Styrene B","body":"Tiempos"},"tags":["light","editorial","terracotta","warm","serious","ai","premium"],"density":"medium","best_for":"AI-adjacent sites that want warmth, consulting, editorial"},
+  {"slug":"linear.app","name":"Linear","description":"Ultra-minimal, precise, purple accent.","category":"Productivity","colors":[{"name":"Ink black","hex":"#0A0A0A"},{"name":"Linear purple","hex":"#5E6AD2"},{"name":"Soft white","hex":"#F4F5F8","light":true}],"typography":{"display":"Inter Display","body":"Inter"},"tags":["dark","minimal","purple","cold","technical","devtools","serious"],"density":"medium","best_for":"Technical products, SaaS tools, precision-minded audiences"},
+  {"slug":"vercel","name":"Vercel","description":"Black and white precision, Geist.","category":"Devtools","colors":[{"name":"Pure black","hex":"#000000"},{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Neutral gray","hex":"#A1A1A1","light":true}],"typography":{"display":"Geist","body":"Geist"},"tags":["dark","minimal","mono","cold","technical","devtools"],"density":"medium","best_for":"Developer tools, precision sites, minimalist portfolios"},
+  {"slug":"mintlify","name":"Mintlify","description":"Clean, green-accented, reading-optimized docs.","category":"Devtools","colors":[{"name":"Mint green","hex":"#00C48C"},{"name":"Paper white","hex":"#FFFFFF","light":true},{"name":"Ink text","hex":"#0F172A"}],"typography":{"display":"Inter","body":"Inter"},"tags":["light","minimal","green","warm","serious","editorial"],"density":"airy","best_for":"Documentation, knowledge bases, writing-heavy sites"},
+  {"slug":"stripe","name":"Stripe","description":"Purple gradients, weight-300 elegance.","category":"Fintech","colors":[{"name":"Stripe purple","hex":"#635BFF"},{"name":"Deep navy","hex":"#0A2540"},{"name":"Soft cream","hex":"#F6F9FC","light":true}],"typography":{"display":"Sohne","body":"Sohne"},"tags":["both","premium","purple","cold","serious","fintech"],"density":"medium","best_for":"Premium SaaS, fintech, any product that wants to feel high-end"},
+  {"slug":"apple","name":"Apple","description":"Premium white space, SF Pro, cinematic imagery.","category":"Consumer","colors":[{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Apple gray","hex":"#1D1D1F"},{"name":"Apple blue","hex":"#0066CC"}],"typography":{"display":"SF Pro Display","body":"SF Pro Text"},"tags":["light","premium","blue","cinematic","serious"],"density":"airy","best_for":"Premium product pages, cinematic storytelling"},
+  {"slug":"airbnb","name":"Airbnb","description":"Warm coral accent, photography-driven, rounded UI.","category":"Consumer","colors":[{"name":"Rausch coral","hex":"#FF5A5F"},{"name":"Warm white","hex":"#FFFFFF","light":true},{"name":"Hof black","hex":"#484848"}],"typography":{"display":"Circular","body":"Circular"},"tags":["light","warm","coral","playful","friendly"],"density":"airy","best_for":"Warm consumer-facing sites, hospitality, service marketplaces"},
+  {"slug":"theverge","name":"The Verge","description":"Acid-mint and ultraviolet accents, Manuka display.","category":"Editorial","colors":[{"name":"Acid mint","hex":"#00FFC8"},{"name":"Ultraviolet","hex":"#7B1FA2"},{"name":"Deep ink","hex":"#0A0A0A"}],"typography":{"display":"Manuka","body":"Polaris"},"tags":["dark","editorial","green","cinematic","playful"],"density":"dense","best_for":"Editorial, opinion, tech writing with personality"},
+  {"slug":"wired","name":"WIRED","description":"Paper-white broadsheet density, custom serif, ink-blue.","category":"Editorial","colors":[{"name":"Paper white","hex":"#FAFAF7","light":true},{"name":"Ink blue","hex":"#1A1A6E"},{"name":"Newsprint black","hex":"#0A0A0A"}],"typography":{"display":"WIRED Cond","body":"Lora"},"tags":["light","editorial","blue","dense","serious"],"density":"dense","best_for":"Magazine-style editorial, long-form journalism, research reports"},
+  {"slug":"framer","name":"Framer","description":"Bold black and blue, motion-first, design-forward.","category":"Creative","colors":[{"name":"Framer black","hex":"#0E0E10"},{"name":"Electric blue","hex":"#0055FF"},{"name":"Soft white","hex":"#FFFFFF","light":true}],"typography":{"display":"Inter Display","body":"Inter"},"tags":["dark","playful","blue","cinematic","creative"],"density":"medium","best_for":"Motion-forward sites, design portfolios, creative tools"},
+  {"slug":"supabase","name":"Supabase","description":"Dark emerald theme, code-first.","category":"Backend","colors":[{"name":"Midnight black","hex":"#1C1C1C"},{"name":"Supabase green","hex":"#3ECF8E"},{"name":"Code gray","hex":"#2A2A2A"}],"typography":{"display":"Inter","body":"Inter"},"tags":["dark","technical","green","devtools","serious"],"density":"medium","best_for":"Technical products, developer tools, code-first sites"},
+  {"slug":"raycast","name":"Raycast","description":"Sleek dark chrome, vibrant gradient accents.","category":"Devtools","colors":[{"name":"Chrome dark","hex":"#0A0A0A"},{"name":"Raycast red","hex":"#FF6363"},{"name":"Gradient purple","hex":"#B47FFF"}],"typography":{"display":"Inter","body":"Inter"},"tags":["dark","premium","red","cinematic","technical"],"density":"medium","best_for":"Premium developer tools, productivity products"},
+  {"slug":"posthog","name":"PostHog","description":"Playful hedgehog branding, developer-friendly dark UI.","category":"Devtools","colors":[{"name":"PostHog orange","hex":"#F9A828"},{"name":"Dark ink","hex":"#1D1F27"},{"name":"Paper white","hex":"#FFFFFF","light":true}],"typography":{"display":"MatterSQ","body":"Inter"},"tags":["dark","playful","orange","warm","devtools"],"density":"medium","best_for":"Developer tools that want personality, friendly technical"},
+  {"slug":"cal","name":"Cal.com","description":"Clean neutral UI, developer-oriented simplicity.","category":"Productivity","colors":[{"name":"Neutral white","hex":"#FFFFFF","light":true},{"name":"Ink black","hex":"#111827"},{"name":"Cal teal","hex":"#0D9488"}],"typography":{"display":"Inter","body":"Inter"},"tags":["light","minimal","teal","serious","productivity"],"density":"airy","best_for":"Scheduling, productivity tools, neutral SaaS"},
+  {"slug":"nike","name":"Nike","description":"Monochrome UI, massive uppercase Futura, full-bleed photography.","category":"Retail","colors":[{"name":"Pure white","hex":"#FFFFFF","light":true},{"name":"Nike black","hex":"#111111"},{"name":"Accent orange","hex":"#FA5400"}],"typography":{"display":"Futura","body":"Helvetica"},"tags":["light","cinematic","mono","serious","premium"],"density":"airy","best_for":"Bold statement sites, athletic or performance brands"}
+];
+
+const FILTERS = {
+  theme: ["dark", "light", "both"],
+  style: ["minimal", "editorial", "playful", "premium", "cinematic", "technical", "warm"],
+  accent: ["mono", "terracotta", "purple", "teal", "green", "blue", "coral", "red", "orange", "gold"],
+  vibe: ["serious", "playful", "warm", "cold", "friendly"]
+};
+
+const activeFilters = { theme: null, style: null, accent: null, vibe: null };
+
+function renderFilters() {
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = '';
+  for (const [key, values] of Object.entries(FILTERS)) {
+    const group = document.createElement('div');
+    group.className = 'filter-group';
+    const label = document.createElement('span');
+    label.className = 'filter-label';
+    label.textContent = key;
+    group.appendChild(label);
+    const allBtn = document.createElement('button');
+    allBtn.className = 'filter-btn' + (activeFilters[key] === null ? ' active' : '');
+    allBtn.textContent = 'all';
+    allBtn.onclick = () => { activeFilters[key] = null; render(); };
+    group.appendChild(allBtn);
+    for (const v of values) {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn' + (activeFilters[key] === v ? ' active' : '');
+      btn.textContent = v;
+      btn.onclick = () => { activeFilters[key] = v; render(); };
+      group.appendChild(btn);
+    }
+    bar.appendChild(group);
+  }
+}
+
+function matches(site) {
+  for (const [key, value] of Object.entries(activeFilters)) {
+    if (value && !site.tags.includes(value)) return false;
+  }
+  return true;
+}
+
+function renderTile(site) {
+  const tile = document.createElement('a');
+  tile.className = 'tile';
+  tile.href = `https://getdesign.md/${site.slug}/design-md`;
+  tile.target = '_blank';
+  tile.rel = 'noopener';
+
+  // Color swatches strip
+  const swatches = document.createElement('div');
+  swatches.className = 'swatches';
+  for (const c of site.colors) {
+    const sw = document.createElement('div');
+    sw.className = 'swatch' + (c.light ? ' light' : '');
+    sw.style.background = c.hex;
+    sw.textContent = c.hex;
+    swatches.appendChild(sw);
+  }
+  tile.appendChild(swatches);
+
+  // Typography specimen block
+  const display = resolveFont(site.typography.display);
+  const body = resolveFont(site.typography.body);
+  const specimen = document.createElement('div');
+  specimen.className = 'specimen';
+
+  const displayEl = document.createElement('div');
+  displayEl.className = 'specimen-display';
+  displayEl.style.fontFamily = display.stack;
+  displayEl.style.fontWeight = (site.tags.includes("editorial") || site.tags.includes("premium")) ? "700" : "600";
+  displayEl.textContent = site.name;
+  specimen.appendChild(displayEl);
+
+  const bodyEl = document.createElement('div');
+  bodyEl.className = 'specimen-body';
+  bodyEl.style.fontFamily = body.stack;
+  bodyEl.textContent = "Operating models are being rewritten by AI. The fast, the slow, the quiet, and the loud are all feeling it.";
+  specimen.appendChild(bodyEl);
+
+  const labels = document.createElement('div');
+  labels.className = 'specimen-labels';
+  const displayLabel = document.createElement('div');
+  displayLabel.innerHTML = `<strong>Display:</strong> ${site.typography.display}` +
+    (display.substitute ? ` <span class="specimen-note">(shown: ${display.substitute})</span>` : "");
+  labels.appendChild(displayLabel);
+  const bodyLabel = document.createElement('div');
+  bodyLabel.innerHTML = `<strong>Body:</strong> ${site.typography.body}` +
+    (body.substitute ? ` <span class="specimen-note">(shown: ${body.substitute})</span>` : "");
+  labels.appendChild(bodyLabel);
+  specimen.appendChild(labels);
+
+  tile.appendChild(specimen);
+
+  // Tile body (metadata)
+  const tbody = document.createElement('div');
+  tbody.className = 'tile-body';
+  tbody.innerHTML = `
+    <div class="tile-head">
+      <div class="tile-name">${site.name}</div>
+      <div class="tile-category">${site.category}</div>
+    </div>
+    <div class="tile-desc">${site.description}</div>
+    <div class="tile-tags">${site.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    <div class="tile-best-for"><strong>Best for:</strong> ${site.best_for}</div>
+    <div class="tile-action">Open full DESIGN.md &rarr;</div>
+  `;
+  tile.appendChild(tbody);
+  return tile;
+}
+
+function render() {
+  renderFilters();
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const filtered = SITES.filter(matches);
+  document.getElementById('count').textContent = `Showing ${filtered.length} of ${SITES.length} references`;
+  for (const site of filtered) {
+    grid.appendChild(renderTile(site));
+  }
+}
+
+render();
+</script>
+</body>
+</html>
