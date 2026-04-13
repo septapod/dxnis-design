@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive Visual Patterns · design.dxn.is</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #09090B;
+    --surface: #111114;
+    --surface-2: #1A1A1F;
+    --border: #2A2A32;
+    --text: #FAFAFA;
+    --text-body: #E8E8ED;
+    --text-dim: #8A8A96;
+    --text-muted: #78787F;
+    --accent: #FBE248;
+    --coral: #CF5A5A;
+    --teal: #437481;
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --gutter: clamp(24px, 5vw, 80px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: var(--font-body);
+    line-height: 1.7;
+    padding: 0 var(--gutter);
+    padding-top: 80px;
+  }
+
+  /* Nav (shared with other design.dxn.is pages) */
+  .site-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(9,9,11,0.85);
+    backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .site-nav-brand { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; color: var(--text); text-decoration: none; }
+  .site-nav-brand span { color: var(--accent); }
+  .site-nav-links { display: flex; gap: 24px; }
+  .site-nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.15s; }
+  .site-nav-links a:hover, .site-nav-links a.active { color: var(--accent); }
+
+  /* Page layout */
+  .page { max-width: 900px; margin: 0 auto; padding-bottom: 96px; }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .lede {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    max-width: 65ch;
+    margin-bottom: 48px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 64px;
+    margin-bottom: 16px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  h2:first-of-type { margin-top: 0; border-top: none; padding-top: 0; }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 40px;
+    margin-bottom: 12px;
+  }
+
+  h4 {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+
+  p { max-width: 65ch; margin-bottom: 16px; }
+
+  ul, ol { padding-left: 24px; margin-bottom: 16px; }
+  li { margin-bottom: 6px; }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--surface);
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  pre {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    overflow-x: auto;
+    margin: 16px 0 24px;
+    line-height: 1.5;
+    color: var(--text-body);
+  }
+
+  .principle {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .principle-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    opacity: 0.3;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .principle h4 { margin-top: 0; }
+
+  .sketch-spec {
+    padding: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .sketch-spec h3 { margin-top: 0; }
+
+  .state-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  @media (max-width: 640px) { .state-grid { grid-template-columns: 1fr; } }
+
+  .state-card {
+    padding: 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .state-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .color-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin: 8px 0;
+  }
+  .color-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
+  .color-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="site-nav-brand">design<span>.dxn.is</span></a>
+  <div class="site-nav-links">
+    <a href="/">DSL</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/patterns" class="active">Patterns</a>
+    <a href="https://github.com/septapod/dxnis-design" target="_blank" rel="noopener">Source</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<h1>Interactive Visual Patterns</h1>
+<p class="lede">Reference for the three scroll-driven service sketches on dxn.is. Use these patterns as the starting point for any future interactive visuals on the site. Every design decision is documented so a future session can reproduce the aesthetic without guessing.</p>
+
+<h2>Core Principles</h2>
+
+<div class="principle">
+  <div class="principle-num">01</div>
+  <h4>Scroll is the only interaction</h4>
+  <p>Scroll at 50% shows the 50% visual state. Scroll backward and it reverses. When scrolling stops, nothing moves. No hover, no click, no time-based animation. The scroll IS the timeline. This is the Apple homepage pattern.</p>
+  <p>Implementation: each sketch receives <code>progress</code> (0 to 1) from <code>window.__serviceScrollState</code>. The <code>draw()</code> function computes all visual properties as pure functions of progress.</p>
+</div>
+
+<div class="principle">
+  <div class="principle-num">02</div>
+  <h4>Smoothstep easing</h4>
+  <p>Raw scroll progress is linear and feels mechanical. Apply smoothstep: <code>t * t * (3 - 2 * t)</code>. This eases the start and end of the animation without adding complexity.</p>
+</div>
+
+<div class="principle">
+  <div class="principle-num">03</div>
+  <h4>Theme-aware colors via dynamic functions</h4>
+  <p>Colors are never hardcoded. They come from functions that check the current theme.</p>
+  <pre>function gold() { return isDarkMode() ? [255, 233, 74] : [180, 145, 10]; }
+function coral() { return isDarkMode() ? [232, 100, 100] : [200, 70, 70]; }
+function teal() { return isDarkMode() ? [80, 160, 176] : [40, 110, 130]; }</pre>
+  <p>Dark mode: bright saturated values designed to glow against #09090B. Light mode: darker, richer values that pop against warm cream backgrounds and pass WCAG AA.</p>
+</div>
+
+<div class="principle">
+  <div class="principle-num">04</div>
+  <h4>Lifecycle management</h4>
+  <p>Sketches create and destroy themselves based on visibility. When a panel scrolls out of view, the p5 instance is removed. When it scrolls back in, a fresh instance is created. Every visit starts from the beginning.</p>
+</div>
+
+<div class="principle">
+  <div class="principle-num">05</div>
+  <h4>Responsive sizing</h4>
+  <p>All positions and sizes use relative values (<code>p.min(w, h) * 0.32</code> for radius). On <code>windowResized</code>, canvases resize and positions recompute.</p>
+</div>
+
+<div class="principle">
+  <div class="principle-num">06</div>
+  <h4>p5.js instance mode</h4>
+  <p>All sketches use <code>new p5(function(p) { ... }, container)</code> so multiple canvases coexist without interfering with each other or the hero particles.</p>
+</div>
+
+<h2>Sketch 1: Alignment Network</h2>
+
+<div class="sketch-spec">
+  <h3>Strategic Planning & Facilitation</h3>
+  <p>Visual metaphor: diverse perspectives aligning into a coherent whole.</p>
+
+  <div class="state-grid">
+    <div class="state-card">
+      <div class="state-label">Start (progress = 0)</div>
+      <p>14 gold nodes scattered randomly. Faint dashed teal connections between nearby nodes (80px threshold). Nodes at 80 alpha, 1x size. No center node.</p>
+    </div>
+    <div class="state-card">
+      <div class="state-label">End (progress = 1)</div>
+      <p>14 nodes in a precise circle (32% radius). Solid teal connections (260px threshold, 2.2px weight). Nodes at 255 alpha, 1.6x size with glow halos. Center facilitator at 22px.</p>
+    </div>
+  </div>
+
+  <h4>Key transitions</h4>
+  <ul>
+    <li>Node positions: <code>lerp(scattered, circle, smoothstep(progress))</code></li>
+    <li>Connections: dashed below 0.4, solid above. Weight interpolates 0.4 to 2.2.</li>
+    <li>Connection distance: <code>lerp(80, 260, t)</code></li>
+    <li>Center node: appears at <code>t > 0.1</code>, grows 0 to 22px with 3x glow halo</li>
+    <li>Node glow halos: appear at <code>t > 0.4</code>, 4x node size, low alpha</li>
+  </ul>
+
+  <h4>Colors</h4>
+  <div class="color-row"><div class="color-swatch" style="background:#FFE94A;"></div><span class="color-label">Gold: nodes, center, halos</span></div>
+  <div class="color-row"><div class="color-swatch" style="background:#50A0B0;"></div><span class="color-label">Teal: connections</span></div>
+</div>
+
+<h2>Sketch 2: Radial Pulse</h2>
+
+<div class="sketch-spec">
+  <h3>Workshops & Speaking</h3>
+  <p>Visual metaphor: a catalyst at the center energizing concentric rings of participants.</p>
+
+  <div class="state-grid">
+    <div class="state-card">
+      <div class="state-label">Start (progress = 0)</div>
+      <p>Coral center at 10px (120 alpha). All participant nodes invisible, collapsed to center. No connections.</p>
+    </div>
+    <div class="state-card">
+      <div class="state-label">End (progress = 1)</div>
+      <p>Center at 20px (240 alpha) with 2.5x glow. Inner ring (6 nodes) and outer ring (10 nodes) at full radius and brightness. Connections between nearby nodes visible.</p>
+    </div>
+  </div>
+
+  <h4>Staged reveal</h4>
+  <ul>
+    <li>Progress 0 to 0.4: inner ring (6 nodes, 15% radius) expands from center</li>
+    <li>Progress 0.2 to 0.7: outer ring (10 nodes, 32% radius) expands from center</li>
+    <li>Progress 0.5 to 1.0: connections between nearby nodes fade in</li>
+    <li>Pulse ring expands continuously: <code>lerp(10, 40% of min dim, progress)</code></li>
+  </ul>
+
+  <h4>Colors</h4>
+  <div class="color-row"><div class="color-swatch" style="background:#E86464;"></div><span class="color-label">Coral: center catalyst, ring guides, pulse waves</span></div>
+  <div class="color-row"><div class="color-swatch" style="background:#FFE94A;"></div><span class="color-label">Gold: participant nodes, connections</span></div>
+</div>
+
+<h2>Sketch 3: Gravitational Pair</h2>
+
+<div class="sketch-spec">
+  <h3>Coaching & Advisory</h3>
+  <p>Visual metaphor: two entities in relationship, drawn closer through the coaching engagement.</p>
+
+  <div class="state-grid">
+    <div class="state-card">
+      <div class="state-label">Start (progress = 0)</div>
+      <p>Two teal nodes in a wide orbit (28% radius). Dim (120 alpha, 12px). Faint connection (30 alpha, 0.5px). Orbit path barely visible.</p>
+    </div>
+    <div class="state-card">
+      <div class="state-label">End (progress = 1)</div>
+      <p>Tight orbit (8% radius). Bright (255 alpha, 22px) with glow halos. Strong connection (200 alpha, 2.8px). Trail and orbit path visible. Three full rotations completed.</p>
+    </div>
+  </div>
+
+  <h4>Key mechanics</h4>
+  <ul>
+    <li>Orbit angle: <code>progress * TWO_PI * 3</code> (three rotations, scroll-controlled)</li>
+    <li>Both nodes diametrically opposed: <code>angle</code> and <code>angle + PI</code></li>
+    <li>Orbit radius: <code>lerp(28%, 8%, progress)</code></li>
+    <li>Midpoint marker: size inversely proportional to distance</li>
+    <li>Trail: 60-frame history of connection lines, visibility scales with progress</li>
+  </ul>
+
+  <h4>Colors</h4>
+  <div class="color-row"><div class="color-swatch" style="background:#50A0B0;"></div><span class="color-label">Teal: everything (single-color palette for intimacy)</span></div>
+</div>
+
+<h2>Visual Vocabulary</h2>
+
+<p>Maintain these conventions across all interactive elements on dxn.is:</p>
+
+<ul>
+  <li><strong>Nodes:</strong> filled circles with optional glow halos (same circle at 3-4x size, low alpha)</li>
+  <li><strong>Connections:</strong> teal stroked lines. Dashed when weak or uncertain, solid when strong or aligned</li>
+  <li><strong>Centers/catalysts:</strong> coral, larger, with breathing or expanding quality</li>
+  <li><strong>Participants/elements:</strong> gold, smaller, multiple</li>
+  <li><strong>Backgrounds:</strong> grainy gradient bloom (radial gradients + SVG noise filter)</li>
+  <li><strong>Progress indicators:</strong> thin vertical strokes in the brand color, filling top-to-bottom</li>
+  <li><strong>Easing:</strong> smoothstep for position, linear for alpha</li>
+</ul>
+
+<h2>How to Reuse</h2>
+
+<ol>
+  <li>Define start state (progress = 0) and end state (progress = 1)</li>
+  <li>Every visual property = a function of progress (use <code>lerp</code>, <code>map</code>, <code>constrain</code>)</li>
+  <li>Apply smoothstep easing to raw progress</li>
+  <li>Use the theme-aware color functions</li>
+  <li>Wrap in <code>manageVisibility()</code> for lifecycle management</li>
+  <li>Use p5.js instance mode</li>
+  <li>Test by scrubbing the scroll slowly and fast in both directions</li>
+</ol>
+
+<p>Source file: <code>~/dev/dxnis/js/service-visuals.js</code></p>
+
+</div>
+
+</body>
+</html>
